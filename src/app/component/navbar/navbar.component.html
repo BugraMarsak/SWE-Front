@@ -1,0 +1,38 @@
+
+  <nav class="navbar-light bg-light">
+    <div class="container">
+      <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3  border-bottom">
+        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">Logo
+        </a>
+  
+        
+  
+        <div *ngIf="!checklog()" class="col-md-3 text-end">
+          <a href="/login" type="button" class="btn btn-outline-primary me-2">Login</a>
+          <a href="/sign-up" type="button" class="btn btn-primary">Sign-up</a>
+        </div>
+
+        <div *ngIf="checklog()" class="col-md-3 text-end">
+            
+
+            <div  class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                {{token['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']}}
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="/user">User Page</a></li>
+                <li><a class="dropdown-item" (click)="exit()">Exit</a></li>
+                
+              </ul>
+            </div>
+
+        </div>
+
+      </header>
+    </div>
+
+    
+  </nav>
+
+
+

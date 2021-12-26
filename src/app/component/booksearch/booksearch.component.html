@@ -1,0 +1,28 @@
+<div class="container d-flex justify-content-center mt-50 mb-50">
+    
+    <div class="row">
+        <div>
+            <input type="text" [(ngModel)]="filterText" class="form-control" id="filterText" placeholder="Enter a book name.">
+        </div>
+        <a class="btn mr-md-2 mb-md-0 mb-2 btn-outline-primary btnspec col-md-12 col-lg-12" (click)="search()">search</a>
+        <div class="col-md-4 mt-4" *ngFor="let result of results">
+            <div class="card">
+                <div class="card-body">
+                    <div class=""> <img src="{{result.formats['image/jpeg']}}" class="card-img "  alt="book photo"> </div>
+                </div>
+                <div class="card-body bg-light text-center">
+                    <div class="mb-2">
+                        <h6 class="font-weight-semibold mb-2"> <a  class="text-default mb-2" data-abc="true">{{result.title}}</a> </h6>
+
+                    </div>
+                    <a (click)="getBookId(result.id)" class="btn bg-cart"><i class="fa fa-cart-plus mr-2">Add to shelf</i> </a> 
+                    <a href="/book/{{result.id}}" class="btn bg-cart ms-2"><i class="fa fa-cart-plus mr-2">Read</i> </a> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <a class="btn btnprv btn-outline-primary col" (click)="getprev()" >get prev</a>
+    <a class="btn btnnext  btn-outline-primary col" (click)="getnext()" >get nextpl</a>
+
