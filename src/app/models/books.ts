@@ -5,5 +5,4 @@ export interface Books{
     "next": string;
     "previous": string;
     "results":Result[]
-    
   }

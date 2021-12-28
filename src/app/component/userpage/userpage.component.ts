@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Formats } from 'src/app/models/formats';
 import { Result } from 'src/app/models/result';
 import { Shelf } from 'src/app/models/shelf';
@@ -13,11 +14,13 @@ import { TokenClaim } from 'src/app/services/tokenclaim.service';
 })
 export class UserpageComponent implements OnInit {
 
-  constructor(private shelfService:ShelfServices,private tokenClaim:TokenClaim,private bookService:BookServices) { }
+  constructor(private shelfService:ShelfServices,private formBuilder:FormBuilder,private tokenClaim:TokenClaim,private bookService:BookServices,private tokenclaim:TokenClaim) { }
   shelfs:number[]=[]
+  shelfId:number[]=[]
   formats:Formats[]=[]
   results:Result[]=[]
   imgcount:number = 0 
+  removeShelfForm:FormGroup;
   ngOnInit(): void {
     this. getUserShelf()
     
@@ -42,6 +45,7 @@ export class UserpageComponent implements OnInit {
     this.shelfService.getById(userId).subscribe(response=>{
       for(var i =0;i<response.data.length;i++){
         this.shelfs[i] = response.data[i].bookId
+        this.shelfId[i] = response.data[i].shelfId
       }
       this.getbooks()
     })
@@ -56,6 +60,36 @@ export class UserpageComponent implements OnInit {
       return false
     }
 
+  }
+
+
+  delete(_bookId:number){
+    var _userId = this.tokenclaim.getid()
+
+    var _shelfId=(this.check(_bookId))
+    
+    this.removeShelfForm = this.formBuilder.group({
+      shelfId:[_shelfId,Validators.required],
+      userId:[_userId,Validators.required],
+      bookId:[_bookId,Validators.required]
+      })
+      console.log(this.removeShelfForm)
+      if(this.removeShelfForm.valid){
+        let removeShelfModel=Object.assign({},this.removeShelfForm.value);
+        this.shelfService.delete(removeShelfModel).subscribe(response=>{
+          
+        }); 
+        window.location.reload()
+      }
+  }
+
+  check(bookid:number){
+    for(var i=0;i<this.shelfs.length;i++){
+      if(this.shelfs[i]==bookid){
+        return this.shelfId[i]
+      }
+    }
+    return 0
   }
 
 }
